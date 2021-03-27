@@ -32,7 +32,7 @@ namespace itis {
 * @param e - значение добавляемого элемента
 */
     void LinkedDequeue::EnqueueFront(Element e) {
-        DoublyNode *node = new DoublyNode(e, back_, nullptr);
+        DoublyNode *node = new DoublyNode(e, nullptr, front_);
         if (size_ == 0) {
             back_ = node;
         }else{
