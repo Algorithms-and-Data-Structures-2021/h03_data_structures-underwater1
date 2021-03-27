@@ -6,39 +6,55 @@
 
 namespace itis {
 
-ArrayStack::ArrayStack(int capacity) {
-  if (capacity <= 0) {
-    throw std::invalid_argument("initial capacity must be greater than zero");
-  }
+    ArrayStack::ArrayStack(int capacity) {
+        if (capacity <= 0) {
+            throw std::invalid_argument("initial capacity must be greater than zero");
+        }
+        capacity_ = capacity;
+        Element *array = new Element[capacity]{};
+        data_ = array;
+        size_ = 0;
+    }
 
-  // TODO: напишите здесь свой код ...
-}
+    ArrayStack::~ArrayStack() {
+        if (data_ != nullptr) {
+            delete[] data_;
+            data_ = nullptr;
+        }
+        size_ = 0;
+        capacity_ = 0;
+    }
 
-ArrayStack::~ArrayStack() {
-  // TODO: напишите здесь свой код ...
-}
+    void ArrayStack::Push(Element e) {
+        if (size_ == capacity_) {
+            resize(capacity_ + kCapacityGrowthCoefficient);
+        }
+        data_[size_] = e;
+        size_++;
+    }
 
-void ArrayStack::Push(Element e) {
-  // TODO: напишите здесь свой код ...
-}
+    void ArrayStack::Pop() {
+        if (size_ == 0) {
+            throw std::logic_error("cannot pop out from empty stack");
+        }
+        data_[size_ - 1] = Element::UNDEFINED;
+        size_--;
+    }
 
-void ArrayStack::Pop() {
-  if (size_ == 0) {
-    throw std::logic_error("cannot pop out from empty stack");
-  }
+    void ArrayStack::Clear() {
+            std::fill(data_, data_+size_, Element::UNDEFINED);
+            size_=0;
+    }
 
-  // TODO: напишите здесь свой код ...
-}
+    void ArrayStack::resize(int new_capacity) {
+        assert(new_capacity > size_);
 
-void ArrayStack::Clear() {
-  // TODO: напишите здесь свой код ...
-}
-
-void ArrayStack::resize(int new_capacity) {
-  assert(new_capacity > size_);
-
-  // TODO: напишите здесь свой код ...
-}
+        Element *new_array = new Element[new_capacity]{};
+        std::copy(data_, data_ + size_ - 1, new_array);
+        delete[] data_;
+        data_ = new_array;
+        capacity_ = new_capacity;
+    }
 
 // === РЕАЛИЗОВАНО ===
 
